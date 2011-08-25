@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+body, html {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    width:100%;
+    height:100%;
+    text-align: center;
+}
+#canvas {
+    border: 1px solid black;
+    background-color: #B7C0A5;
+}
+#tama {
+    display: inline;
+    display: inline-block;
+    padding: 30px;
+    padding-top: 70px;
+    padding-bottom: 80px;
+    background-color: pink;
+    border-radius: 50% 50%;
+}
+#controls {
+    text-align: center;
+}
+</style>
+<!-- Import EaselJS Framework -->
+<script src="./Scripts/Easel/utils/UID.js"></script>
+<script src="./Scripts/Easel/geom/Matrix2D.js"></script>
+<script src="./Scripts/Easel/geom/Rectangle.js"></script>
+<script src="./Scripts/Easel/events/MouseEvent.js"></script>
+<script src="./Scripts/Easel/display/DisplayObject.js"></script>
+<script src="./Scripts/Easel/display/Container.js"></script>
+<script src="./Scripts/Easel/display/Text.js"></script>
+<script src="./Scripts/Easel/display/Graphics.js"></script>
+<script src="./Scripts/Easel/display/Shape.js"></script>
+<script src="./Scripts/Easel/display/Stage.js"></script>
+<script src="./Scripts/Easel/display/Bitmap.js"></script>
+<script src="./Scripts/Easel/display/DOMElement.js"></script>
+<script src="./Scripts/Easel/utils/Ticker.js"></script>
+<!-- End EaselJS Imports -->
+<script src="./Scripts/xui.js"></script>
+<script>
+x$(window).on("load", function() {
+    window.$ = x$
+    var spd = [2, 2];
+    var alwaysTrue = true;
+    var toldAlready = false;
+    window.tick = function() {
+        //var arr = [2,-2,0];
+        //var mx = arr[Math.floor(Math.random()*arr.length)]
+        //console.log(window.bit.x)
+        //console.log(bit)
+        var wo2 = bit.image.width/2*bit.scaleX;
+        var ho2 = bit.image.height/2*bit.scaleY;
+        if(window.bit.x+wo2>canvas.width || window.bit.x-wo2<0) {
+            spd[0] = -spd[0];
+        }
+        if(window.bit.y+ho2>canvas.height || window.bit.y-ho2<(CIRCLE_RADIUS*2)) {
+            spd[1] = -spd[1];
+        }
+        save()
+        if(window.tamaFood<=0 && !toldAlready) {
+            alert("Your dude died, bud.");
+            alwaysTrue=false;
+            window.tamaFood=0;
+            clearTimeout(window.hungryInt);
+            toldAlready = true;
+            if(confirm("Make a new guy?")) {
+                reset();
+                alwaysTrue=true;
+                toldAlready=false;
+                init();
+            }
+        }
+        if(alwaysTrue) {
+            window.bit.x += spd[0];
+            window.bit.y += spd[1];
+            stage.update();
+        }
+    }
+    var CIRCLE_RADIUS = 7;
+    function drawButtons() {
+        var g = new Graphics();
+    	g.setStrokeStyle(1)
+		g.beginFill(Graphics.getRGB(0,0,0))
+		g.drawCircle(0,0,CIRCLE_RADIUS)
+        //g.drawRect(0,0,CIRCLE_RADIUS*2,CIRCLE_RADIUS*2)
+		stat = new Shape(g)
+		stat.x = 8;
+		stat.y = 8;
+		stat.name = "stats"
+		stat.mouseEnabled=true;
+        stat.onClick = function(e) {
+            var d = new Date()
+            var curTime = d.getTime();
+            var ageMS = curTime-window.tamaTime;
+            var ageS = Math.floor(ageMS/1000);
+            var ageM = Math.floor(ageS/60);
+            if(ageM===1) {
+                var plur = "";
+            } else {
+                var plur = "s";
+            }
+            var stg = "Name: "+window.tamaName+"\nGender: "+window.tamaGend+"\nAge: "+ageM+" minute"+plur+"\n\nFullness: "+window.tamaFood+"%";
+            alert(stg);
+        }
+        stage.addChild(stat);
+        
+        var h = new Graphics();
+        h.setStrokeStyle(1)
+		h.beginFill(Graphics.getRGB(0,0,0))
+		h.drawCircle(0,0,CIRCLE_RADIUS)
+        //g.drawRect(0,0,CIRCLE_RADIUS*2,CIRCLE_RADIUS*2)
+		feed = new Shape(g)
+		feed.x = 32;
+		feed.y = 8;
+		feed.name = "food"
+		feed.mouseEnabled=true;
+        feed.onClick = function(e) {
+            window.tamaFood += 25;
+            if(window.tamaFood>100) {
+                window.tamaFood = 100;
+            }
+        }
+        stage.addChild(feed)
+    }
+    function tamaLoaded(e) {
+        var container = new Container();
+        window.stage.addChild(container);
+        window.bit = new Bitmap(window.tama);
+        container.addChild(bit);
+        bit.x = $("#canvas")[0].width/2;
+        bit.y = $("#canvas")[0].height/2;
+        bit.name = "tamaBit";
+        //bit.image.width = 64;
+        //bit.image.height = 60;
+        bit.snapToPixel = false;
+        bit.scaleX = bit.scaleY = 0.25;
+        bit.regX = bit.image.width/2|0;
+    	bit.regY = bit.image.height/2|0;
+        //stage.update();
+        //Ticker.setInterval(200);
+        drawButtons()
+        Ticker.setFPS(12);
+        Ticker.addListener(window);
+    }
+    function reset() {
+        localStorage.removeItem("tamaGend");
+        localStorage.removeItem("tamaName");
+        localStorage.removeItem("tamaTime");
+        localStorage.removeItem("tamaFood");
+    }
+    function save() {
+        localStorage.tamaGend = window.tamaGend;
+        localStorage.tamaName = window.tamaName;
+        localStorage.tamaTime = window.tamaTime;
+        localStorage.tamaFood = window.tamaFood;
+    }
+    function init() {
+        var arr = ["Male","Female"];
+        var arrS = Math.round(Math.random()*arr.length);
+        while(arrS>=arr.length) {
+            console.log(arrS)
+            arrS = Math.round(Math.random()*arr.length);
+        }
+        //window.tamaGend = arr[Math.floor(Math.random()*arr.length)];
+        var ls = localStorage;
+        window.tamaGend = ls.tamaGend||arr[arrS];
+        window.tamaName = ls.tamaName||prompt("Enter a name.\n(Hint: It's "+window.tamaGend.toLowerCase()+")")||"Derpo";
+        var d = new Date();
+        window.tamaTime = ls.tamaTime||d.getTime();
+        window.tamaFood = ls.tamaFood||50;
+        window.hungryInt = setInterval(function() {
+            window.tamaFood-=1;
+            //save()
+        }, 4000);
+        canvas = $("#canvas")[0];
+        window.stage = new Stage(canvas);
+        window.tama = new Image();
+        tama.onload = tamaLoaded;
+        tama.src = "./Images/Mimitchi.svg";
+        /*tama.width = 64;
+        tama.height = 60;
+        tama.naturalWidth = 64;
+        tama.naturalHeight = 60;*/
+    }
+    init()
+});
+</script>
+</head>
+<body>
+<!--<div id="tama">-->
+<canvas id="canvas" width="192" height="120">No support, comrade.</canvas>
+<!--<div id="controls">
+<button id="a">A</button><button id="b">B</button><button id="c">C</button>
+</div>
+</div>-->
+</body>
+</html>
