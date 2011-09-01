@@ -1,0 +1,38 @@
+body {
+    background-color: saddlebrown;
+    background-image: url(../Images/bourdonGaugeImageP.svg), url(http://fc06.deviantart.net/fs15/f/2007/061/2/4/Wood_texture_by_shadowh3.jpg);
+    background-repeat: no-repeat, repeat;
+    background-position: right top, center;
+}
+#canvas {
+    /*border: 1px solid black;*/
+    /*-moz-border-image: url(http://fc02.deviantart.net/fs45/i/2009/123/2/c/amber_metallic_texture_by_beckas.jpg) 27 27 27 27 repeat;
+    //-moz-border-image: url(http://t2.ftcdn.net/jpg/00/12/63/75/400_F_12637546_8f6dHjgrslX9HP7Jeqkgtd2YlVMKFEjE.jpg) 60 round;
+    //-moz-border-image: url(http://fc00.deviantart.net/fs12/f/2006/300/d/0/Metal_Border.gif) 30 round;
+    //border-width: 60px;
+    //background-image: url(http://th02.deviantart.net/fs29/PRE/f/2008/099/f/8/Leather_Texture_2_by_Riverd_Stock.jpg);
+    //background-image: url(http://th06.deviantart.net/fs39/PRE/f/2008/322/f/3/Brown_Leather_Texture_by_MaxDaten.png);
+    //background-image: url(http://photoshoproadmap.s3.amazonaws.com/textures2/8.jpg);
+    //background-image: url(http://images2.layoutsparks.com/1/165788/dew-blue-water-drops-31000.jpg);
+    //background-image: url(http://fc04.deviantart.net/fs6/i/2005/048/f/1/Parchment_by_Shneed.png);*/
+    background-color: goldenrod;
+    background-image: url(http://fc01.deviantart.net/fs16/i/2007/223/a/b/old_crackly_parchment_texture_by_Teeth_Man.png);
+    /*background-image: url(http://fc03.deviantart.net/fs71/i/2011/175/c/5/boiling_by_siete111-d3jw2gy.jpg);
+    //background-image: url(http://www.newvistawallpaper.com/d/32748/-/blue-light_1600_x_1200.jpg);
+    //background-image: url(http://www.instructables.com/image/F7Y7WGKFM2KBQC2/Blue-light-w-unaided-eye-method.jpg);*/
+    border-radius: 5px;
+    background-size: 100% 100%;
+    /*box-shadow: -2px -2px 2px #000;*/
+    -webkit-box-shadow: inset 0px 0px 10px #000;
+    -moz-box-shadow: inset 0px 0px 10px #000;
+    -o-box-shadow: inset 0px 0px 10px #000;
+    box-shadow: inset 0px 0px 10px #000;
+}
+/*#optBorder {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 30px;
+    //background-image: url(http://fc02.deviantart.net/fs71/f/2010/155/a/f/Clockwork_texture_by_kaukassus.jpg);
+    background-image: url(http://t2.ftcdn.net/jpg/00/12/63/75/400_F_12637546_8f6dHjgrslX9HP7Jeqkgtd2YlVMKFEjE.jpg);
+    background-size: 100%;
+}*/
